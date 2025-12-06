@@ -3,19 +3,23 @@
 pub use ethers::types::{Address, U256};
 use variant_count::VariantCount;
 
-use crate::constant::arbitrum::{ARB, DAI, GMX, USDC, USDT, WBTC, WETH};
+use crate::constant::arbitrum::{ARB, DAI, GMX, USDC, USDT, WBTC, WETH, USDCe, LINK, MAGIC, FRAX};
 
 /// Represents an asset type
 #[derive(Clone, Copy, Debug, Eq, Ord, PartialEq, PartialOrd, VariantCount)]
 pub enum Token {
     // THIS ORDER MUST NOT CHANGE arbitrarily see contract/TradeExecutor.sol
     USDC = 0,
-    WETH = 1,
-    WBTC = 2,
-    ARB = 3,
-    USDT = 4,
-    DAI = 5,
-    GMX = 6,
+    USDCe = 1,
+    WETH = 2,
+    WBTC = 3,
+    ARB = 4,
+    USDT = 5,
+    DAI = 6,
+    LINK = 7,
+    MAGIC = 8,
+    FRAX = 9,
+    // GMX = 6,
 }
 
 impl Token {
@@ -23,12 +27,16 @@ impl Token {
     pub fn from_usize(x: usize) -> Self {
         match x {
             0 => Self::USDC,
-            1 => Self::WETH,
-            2 => Self::WBTC,
-            3 => Self::ARB,
-            4 => Self::USDT,
-            5 => Self::DAI,
-            6 => Self::GMX,
+            1 => Self::USDCe,
+            2 => Self::WETH,
+            3 => Self::WBTC,
+            4 => Self::ARB,
+            5 => Self::USDT,
+            6 => Self::DAI,
+            7 => Self::LINK,
+            8 => Self::MAGIC,
+            9 => Self::FRAX,
+            // 6 => Self::GMX,
             _ => panic!("unsupported token index"),
         }
     }
@@ -37,29 +45,37 @@ impl Token {
         match self {
             Self::WETH => WETH.into(),
             Self::USDC => USDC.into(),
+            Self::USDCe => USDCe.into(),
             Self::WBTC => WBTC.into(),
             Self::ARB => ARB.into(),
             Self::USDT => USDT.into(),
             Self::DAI => DAI.into(),
-            Self::GMX => GMX.into(),
+            Self::LINK => LINK.into(),
+            Self::MAGIC => MAGIC.into(),
+            Self::FRAX => FRAX.into(),
+            // Self::GMX => GMX.into(),
         }
     }
     pub fn from_address(a: [u8; 20]) -> Self {
         match a {
             WETH => Self::WETH,
             USDC => Self::USDC,
+            USDCe => Self::USDCe,
             WBTC => Self::WBTC,
             ARB => Self::ARB,
             USDT => Self::USDT,
             DAI => Self::DAI,
-            GMX => Self::GMX,
+            LINK => Self::LINK,
+            MAGIC => Self::MAGIC,
+            FRAX => Self::FRAX,
+            // GMX => Self::GMX,
             _ => unimplemented!(),
         }
     }
     /// The decimals of the token
     pub fn decimals(&self) -> u8 {
         match self {
-            Self::USDC | Self::USDT => 6,
+            Self::USDC | Self::USDCe | Self::USDT => 6,
             Self::WBTC => 8,
             _ => 18,
         }
@@ -174,11 +190,15 @@ mod test {
     fn token_id_order() {
         // THIS ORDER MUST NOT CHANGE arbitrarily see contract/TradeExecutor.sol
         assert_eq!(Token::from_usize(0), Token::USDC);
-        assert_eq!(Token::from_usize(1), Token::WETH);
-        assert_eq!(Token::from_usize(2), Token::WBTC);
-        assert_eq!(Token::from_usize(3), Token::ARB);
-        assert_eq!(Token::from_usize(4), Token::USDT);
-        assert_eq!(Token::from_usize(5), Token::DAI);
-        assert_eq!(Token::from_usize(6), Token::GMX);
+        assert_eq!(Token::from_usize(1), Token::USDCe);
+        assert_eq!(Token::from_usize(2), Token::WETH);
+        assert_eq!(Token::from_usize(3), Token::WBTC);
+        assert_eq!(Token::from_usize(4), Token::ARB);
+        assert_eq!(Token::from_usize(5), Token::USDT);
+        assert_eq!(Token::from_usize(6), Token::DAI);
+        assert_eq!(Token::from_usize(7), Token::LINK);
+        assert_eq!(Token::from_usize(8), Token::MAGIC);
+        assert_eq!(Token::from_usize(9), Token::FRAX);
+        // assert_eq!(Token::from_usize(6), Token::GMX);
     }
 }

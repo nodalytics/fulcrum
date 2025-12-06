@@ -38,7 +38,9 @@ pub mod arbitrum {
     /// Arbitrum WETH token address
     pub const WETH: [u8; 20] = hex!("82aF49447D8a07e3bd95BD0d56f35241523fBab1");
     /// Arbitrum USDC token address
-    pub const USDC: [u8; 20] = hex!("FF970A61A04b1cA14834A43f5dE4533eBDDB5CC8");
+    pub const USDC: [u8; 20] = hex!("af88d065e77c8cC2239327C5EDb3A432268e5831");
+    // Arbitrum USDC.e token address
+    pub const USDCe: [u8; 20] = hex!("FF970A61A04b1cA14834A43f5dE4533eBDDB5CC8");
     /// Arbitrum USDT token address
     pub const USDT: [u8; 20] = hex!("Fd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9");
     /// Arbitrum DAI token address
@@ -51,4 +53,10 @@ pub mod arbitrum {
     pub const GMX: [u8; 20] = hex!("fc5A1A6EB076a2C7aD06eD22C90d7E710E35ad0a");
     /// Arbitrum RDNT token address
     pub const RDNT: [u8; 20] = hex!("3082CC23568eA640225c2467653dB90e9250AaA0");
+    /// Arbitrum LINK token address
+    pub const LINK: [u8; 20] = hex!("f97f4df75117a78c1A5a0DBb814Af92458539FB4");
+    /// Arbitrum MAGIC token address
+    pub const MAGIC: [u8; 20] = hex!("539bdE0d7Dbd336b79148AA742883198BBF60342");
+    /// Arbitrum FRAX token address
+    pub const FRAX: [u8; 20] = hex!("17FC002b466eEc40DaE837Fc4bE5c67993ddBd6F");
 }
