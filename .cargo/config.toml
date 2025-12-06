@@ -1,0 +1,2 @@
+[target.'cfg(target_cpu="native")']
+rustflags = ["-C target-cpu=native"]

@@ -4,3 +4,6 @@ profile.json
 /scripts
 /docs
 /bin
+contract/broadcast/*
+.env
+*.log

@@ -41,12 +41,16 @@ contract TradeExecutor is IUniswapV3SwapCallback {
         // init token id to address mapping
         // the indexes are expected to be 1:1 with the fulcrum client `Token` enum
         tokenLookup = [
-            0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8, // usdc
-            0x82aF49447D8a07e3bd95BD0d56f35241523fBab1, // weth
-            0x2f2a2543B76A4166549F7aaB2e75Bef0aefC5B0f, // wbtc
-            0x912CE59144191C1204E64559FE8253a0e49E6548, // arb
-            0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9, // usdt
-            0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1 // dai
+            0xaf88d065e77c8cC2239327C5EDb3A432268e5831, // USDC
+            0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8, // USDC.e
+            0x82aF49447D8a07e3bd95BD0d56f35241523fBab1, // WETH 
+            0x2f2a2543B76A4166549F7aaB2e75Bef0aefC5B0f, // WBTC
+            0x912CE59144191C1204E64559FE8253a0e49E6548, // ARB
+            0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9, // USDT
+            0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1, // DAI
+            0xf97f4df75117a78c1A5a0DBb814Af92458539FB4, // LINK
+            0x539bdE0d7Dbd336b79148AA742883198BBF60342, // MAGIC
+            0x17FC002b466eEc40DaE837Fc4bE5c67993ddBd6F  // FRAX
         ];
 
         uint256 approvalLimit = type(uint128).max;

@@ -7,11 +7,16 @@ import "../lib/forge-std/src/console.sol";
 
 import "../src/V3PoolViewer.sol";
 
-contract ExecutorTest is Test {
+contract V3PoolViewerTest is Test {
     V3PoolViewer public viewer;
 
     address sushiUsdcWeth = 0x905dfCD5649217c42684f23958568e533C711Aa3;
     address chronosUsdcWeth = 0xA2F1C1B52E1b7223825552343297Dc68a29ABecC;
+
+    function setUp() public {
+        vm.createSelectFork("https://arb1.arbitrum.io/rpc");
+        viewer = new V3PoolViewer();
+    }
 
     function packAddresses(address[] memory addresses) private pure returns(bytes memory data){
         for(uint i=0; i < addresses.length; i++){
@@ -20,8 +25,6 @@ contract ExecutorTest is Test {
     }
 
     function testViewer() public {
-        viewer = new V3PoolViewer();
-
         // build v3 pools query
         address[] memory v3Addresses = new address[](2);
         v3Addresses[0] = 0xC31E54c7a869B9FcBEcc14363CF510d1c41fa443;
