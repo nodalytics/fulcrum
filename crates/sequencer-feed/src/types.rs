@@ -260,8 +260,9 @@ pub fn decode_tx_info_legacy(buf: &[u8]) -> Option<TransactionInfo> {
             decode_base_eip2930(rest)
         }
         _ => {
-            info!("{:02x?}", buf);
-            unimplemented!();
+            warn!("Received unsupported transaction type: 0x{:02x}, skipping.", first_byte);
+            // unimplemented!();
+            None
         }
     }
 }

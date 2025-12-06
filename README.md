@@ -18,12 +18,16 @@ crates
 
 ## Run
 ```bash
-$  ./target/release/fulcrum \
+$  RUST_LOG="info,warn,error,debug" ./target/release/fulcrum \
     --chain arbitrum --ws <WsEndpoint> \
     run --min-profit 0.0002 \
     --key <PrivateSeed> \
     --executor <ExecutorContract> \
     --dry-run
+```
+
+```powershell
+$env:RUST_LOG="info,warn,error,debug";
 ```
 
 ## Profile (MacOS)

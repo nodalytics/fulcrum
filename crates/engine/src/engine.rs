@@ -72,6 +72,11 @@ where
                 syncing = true;
                 continue;
             }
+            debug!(
+                "received feed batch: #{} {:?}",
+                tx_buffer.block_number(),
+                Instant::now() - t0
+            );
 
             // feed message is not useful
             if tx_buffer.block_number() == 0 {

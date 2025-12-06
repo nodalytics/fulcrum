@@ -117,15 +117,19 @@ async fn main() {
         let pairs: Vec<Pair> = uniswap_v3_pairs.iter().map(|(p, _)| *p).collect(); // TODO: include v2 pairs
         let weth_paths = PriceGraph::find_paths(Token::WETH, pairs.as_slice());
         let arb_paths = PriceGraph::find_paths(Token::ARB, pairs.as_slice());
+        let magic_paths = PriceGraph::find_paths(Token::MAGIC, pairs.as_slice());
         let usdt_paths = PriceGraph::find_paths(Token::USDT, pairs.as_slice());
         let usdc_paths = PriceGraph::find_paths(Token::USDC, pairs.as_slice());
+        let usdce_paths = PriceGraph::find_paths(Token::USDCe, pairs.as_slice());
         // via flash loans position can be anything
         // positions should be big enough to make profits, small enough to not cross v3 liquidity ticks
         let all_paths = [
             (Position::of(5_000, Token::USDC), usdc_paths.as_ref()),
+            (Position::of(5_000, Token::USDCe), usdce_paths.as_ref()),
             (Position::of(3, Token::WETH), weth_paths.as_ref()),
             (Position::of(5_000, Token::USDT), usdt_paths.as_ref()),
             (Position::of(4_500, Token::ARB), arb_paths.as_ref()),
+            (Position::of(10_000, Token::MAGIC), magic_paths.as_ref()),
         ];
 
         let engine = Engine::new(price_service, order_service, sequencer_feed);
@@ -140,13 +144,21 @@ fn load_pairs() -> (Vec<(Pair, Address)>, Vec<(Pair, Address)>) {
         Pair::new(Token::USDC, Token::WETH, 100, ExchangeId::Uniswap),
         Pair::new(Token::USDC, Token::WETH, 500, ExchangeId::Uniswap),
         Pair::new(Token::USDC, Token::WETH, 3_000, ExchangeId::Uniswap),
+        Pair::new(Token::USDCe, Token::WETH, 100, ExchangeId::Uniswap),
+        Pair::new(Token::USDCe, Token::WETH, 500, ExchangeId::Uniswap),
+        Pair::new(Token::USDCe, Token::WETH, 3_000, ExchangeId::Uniswap),
         Pair::new(Token::USDC, Token::ARB, 500, ExchangeId::Uniswap),
+        Pair::new(Token::USDCe, Token::ARB, 500, ExchangeId::Uniswap),
         Pair::new(Token::WETH, Token::ARB, 100, ExchangeId::Uniswap),
         Pair::new(Token::WETH, Token::ARB, 500, ExchangeId::Uniswap),
         Pair::new(Token::WETH, Token::ARB, 3_000, ExchangeId::Uniswap),
         Pair::new(Token::WETH, Token::USDT, 500, ExchangeId::Uniswap),
         Pair::new(Token::WETH, Token::USDT, 100, ExchangeId::Uniswap),
         Pair::new(Token::USDT, Token::USDC, 100, ExchangeId::Uniswap),
+        Pair::new(Token::USDT, Token::USDCe, 100, ExchangeId::Uniswap),
+        Pair::new(Token::MAGIC, Token::WETH, 500, ExchangeId::Uniswap),
+        Pair::new(Token::MAGIC, Token::USDC, 500, ExchangeId::Uniswap),
+        Pair::new(Token::MAGIC, Token::USDCe, 500, ExchangeId::Uniswap),
     ];
     let uniswap_v3_pairs: Vec<(Pair, Address)> = pairs
         .iter()
@@ -166,7 +178,7 @@ fn load_pairs() -> (Vec<(Pair, Address)>, Vec<(Pair, Address)>) {
             Address::from_str("afe909b1a5ed90d36f9ee1490fcb855645c00eb3").unwrap(),
         ),
         (
-            Pair::new(Token::WETH, Token::USDC, 200, ExchangeId::Chronos),
+            Pair::new(Token::WETH, Token::USDCe, 200, ExchangeId::Chronos),
             Address::from_str("A2F1C1B52E1b7223825552343297Dc68a29ABecC").unwrap(),
         ),
         (
@@ -175,7 +187,7 @@ fn load_pairs() -> (Vec<(Pair, Address)>, Vec<(Pair, Address)>) {
         ),
     ];
     let sushi_pairs: &[(Pair, Address)] = &[(
-        Pair::new(Token::WETH, Token::USDC, 300, ExchangeId::Sushi),
+        Pair::new(Token::WETH, Token::USDCe, 300, ExchangeId::Sushi),
         Address::from_str("905dfcd5649217c42684f23958568e533c711aa3").unwrap(),
     )];
     let camelot_pairs: &[(Pair, Address)] = &[
@@ -184,7 +196,7 @@ fn load_pairs() -> (Vec<(Pair, Address)>, Vec<(Pair, Address)>) {
             Address::from_str("a6c5c7d189fa4eb5af8ba34e63dcdd3a635d433f").unwrap(),
         ),
         (
-            Pair::new(Token::WETH, Token::USDC, 300, ExchangeId::Sushi),
+            Pair::new(Token::WETH, Token::USDCe, 300, ExchangeId::Sushi),
             Address::from_str("84652bb2539513baf36e225c930fdd8eaa63ce27").unwrap(),
         ),
     ];
