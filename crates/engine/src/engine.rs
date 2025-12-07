@@ -3,7 +3,7 @@ use std::time::Instant;
 
 use bumpalo::Bump;
 use ethers_providers::Middleware;
-use log::{debug, error, info, warn};
+use tracing::{error, info, warn, debug};
 
 use fulcrum_sequencer_feed::{SequencerFeed, TxBuffer};
 use fulcrum_ws_cli::FastWsClient;
@@ -72,7 +72,7 @@ where
                 syncing = true;
                 continue;
             }
-            debug!(
+            info!(
                 "received feed batch: #{} {:?}",
                 tx_buffer.block_number(),
                 Instant::now() - t0
@@ -188,5 +188,5 @@ pub async fn prices_at<M: Middleware<Provider = FastWsClient> + 'static>(
     let (price_requests, price_queue) = price_service.start().await;
     price_requests.send(at).await.expect("price sync request");
     let price_graph = price_queue.recv_ref().await.expect("price graph ready");
-    println!("{}", price_graph.as_ref().expect("price graph built"));
+    info!("{}", price_graph.as_ref().expect("price graph built"));
 }

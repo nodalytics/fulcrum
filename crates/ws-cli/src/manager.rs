@@ -8,7 +8,7 @@ use std::{
 };
 
 use ethers_providers::{ConnectionDetails, WsClientError};
-use log::{debug, error, trace};
+use tracing::{debug, error, trace};
 use serde_json::value::to_raw_value;
 use tokio::select;
 

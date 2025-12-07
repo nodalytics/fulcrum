@@ -4,7 +4,7 @@ use std::{fmt, sync::Arc, time::Instant};
 use async_trait::async_trait;
 use compact_str::CompactString;
 use ethers_providers::{ConnectionDetails, JsonRpcClient, WsClientError};
-use log::error;
+use tracing::error;
 use serde::{de::DeserializeOwned, Serialize};
 use serde_json::value::{to_raw_value, RawValue};
 

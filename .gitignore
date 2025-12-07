@@ -1,9 +1,8 @@
 /target
 profile.json
 .vscode
-/scripts
-/docs
+.trash
 /bin
-contract/broadcast/*
 .env
 *.log
+logs/

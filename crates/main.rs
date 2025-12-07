@@ -6,6 +6,12 @@ use cli::*;
 use ethers_providers::{Middleware, Provider};
 use ethers_signers::{LocalWallet, Signer};
 
+use tracing::{error, info, warn};
+use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
+use tracing_subscriber::{fmt, EnvFilter};
+use tracing_appender::{rolling, non_blocking};
+use tracing_appender::non_blocking::{WorkerGuard};
+
 use fulcrum_engine::{
     constant::arbitrum::{UNISWAP_V3_FACTORY, UNISWAP_V3_INIT_CODE_HASH},
     prices_at,
@@ -22,14 +28,15 @@ static GLOBAL: MiMalloc = MiMalloc;
 
 #[tokio::main]
 async fn main() {
-    println!(
+    // init logger crate
+    let _guard = init_tracing();
+    tracing::info!(
         r#"
         █▀▀ █░█ █░░ █▀▀ █▀█ █░█ █▀▄▀█
         █▀░ █▄█ █▄▄ █▄▄ █▀▄ █▄█ █░▀░█
         "#
     );
-    // init logger crate
-    env_logger::init();
+    tracing::info!("🚀 Starting...");
     // pin to core
     // tuna --cpus 1-7 --isolate, 0 becomes core 1s
     let core_ids = core_affinity::get_core_ids().unwrap();
@@ -53,7 +60,7 @@ async fn main() {
 
     // Price fetch
     if let SubCommand::Prices(PricesCommand { at }) = sub_command {
-        println!("querying prices at block: #{at}, chain: {:?}", chain);
+        info!("querying prices at block: #{at}, chain: {:?}", chain);
         let price_service = PriceService::new(
             Arc::new(provider),
             uniswap_v2_pairs.as_slice(),
@@ -100,15 +107,15 @@ async fn main() {
             uniswap_v3_pairs.as_slice(),
         );
 
-        println!(
+        info!(
             "monitoring chain: {:?}\nsigning with: {:?}\nexecutor: {:?}\npassive: {dry_run}",
             chain,
             wallet.address(),
             executor,
         );
         let ws_latency = provider.provider().as_ref().report_latency().await;
-        println!("~ws latency: ~{:?}ms", ws_latency);
-        println!(
+        info!("~ws latency: ~{:?}ms", ws_latency);
+        info!(
             "min. profit margin: {:?}%\npairs: {:#?}{:#?}\n",
             min_profit, uniswap_v3_pairs, uniswap_v2_pairs,
         );
@@ -202,4 +209,47 @@ fn load_pairs() -> (Vec<(Pair, Address)>, Vec<(Pair, Address)>) {
     ];
     let uniswap_v2_pairs = [chronos_pairs, sushi_pairs, camelot_pairs].concat();
     (uniswap_v2_pairs, uniswap_v3_pairs)
+}
+
+
+pub fn init_tracing() -> WorkerGuard {
+    // File appender (daily rotation)
+    let file_appender = rolling::daily("logs", "fulcrum.log");
+    let (non_blocking, guard) = non_blocking(file_appender);
+
+    // Try to build EnvFilter from environment (RUST_LOG)
+    let filter = match EnvFilter::try_from_default_env() {
+        Ok(f) => f,
+        Err(e) => {
+            error!(
+                "⚠️ Failed to load RUST_LOG from environment: {}. Falling back to 'info,error'.",
+                e
+            );
+
+            // Attempt fallback with explicit "info,error"
+            // TODO: fix fallback
+            match EnvFilter::try_new("info,warn,error") {
+                Ok(fallback) => {
+                    error!("ℹ️ Using fallback EnvFilter = 'info,warn,error'.");
+                    fallback
+                }
+                Err(inner_err) => {
+                    error!(
+                        "❌ Unexpected error initializing fallback EnvFilter('info,warn,error'): {}. Using default.",
+                        inner_err
+                    );
+                    EnvFilter::default()
+                }
+            }
+        }
+    };
+
+    tracing_subscriber::registry()
+        .with(fmt::layer().with_writer(std::io::stdout)) // console output
+        .with(fmt::layer().with_writer(non_blocking))    // file output
+        .with(filter)
+        .init();
+
+    info!("✅ Tracing initialized with info+warn+error levels.");
+    guard
 }

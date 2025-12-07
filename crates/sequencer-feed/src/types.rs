@@ -2,7 +2,7 @@
 #![allow(dead_code)]
 use bumpalo::{collections, Bump};
 use ethers::types::{Address, U256};
-use log::{debug, info, warn};
+use tracing::{debug, info, warn};
 use rlp::Rlp;
 use serde::Deserialize;
 

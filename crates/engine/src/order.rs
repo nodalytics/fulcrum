@@ -15,7 +15,7 @@ use futures::{
     future::{select_all, select_ok},
     AsyncReadExt,
 };
-use log::{debug, error, info, trace};
+use tracing::{debug, error, info, trace};
 use thingbuf::mpsc::{channel, Sender};
 use tokio::select;
 
@@ -504,7 +504,7 @@ mod test {
             assert_eq!(result, Ok(()));
             total += Instant::now().duration_since(start);
         }
-        println!("mean: {:?}", total.as_micros() as f64 / 100_f64);
+        info!("mean: {:?}", total.as_micros() as f64 / 100_f64);
     }
 
     // TODO: setup mocking for http client

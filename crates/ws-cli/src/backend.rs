@@ -3,7 +3,7 @@ use futures_util::{
     stream::{Fuse, StreamExt},
     SinkExt,
 };
-use log::error;
+use tracing::{info,error};
 use serde_json::value::RawValue;
 use tokio::{
     select,
@@ -151,14 +151,14 @@ impl WsBackend {
                                 match inst {
                                     Some(msg) => {
                                         if let Err(_) = self.server.send(Message::Text(msg.to_string())).await {
-                                            println!("err while send ws to server");
+                                            info!("err while send ws to server");
                                             err = true;
                                             break
                                         }
                                     },
                                     // dispatcher has gone away
                                     None => {
-                                        println!("dispatcher finished");
+                                        info!("dispatcher finished");
                                         err = true;
                                         break
                                     },

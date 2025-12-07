@@ -82,15 +82,15 @@ mod test {
             let t0 = Instant::now();
             let resp = client.post("https://arb1-sequencer.arbitrum.io/rpc", r#"{"id":704211,"jsonrpc":"2.0","method":"eth_getBalance","params":["0x407d73d8a49eeb85d32cf465507dd71d507100c1","latest"]}"#.as_bytes()).expect("post ok");
             total += Instant::now().checked_duration_since(t0).unwrap();
-            println!("{:?}", Instant::now() - t0);
+            info!("{:?}", Instant::now() - t0);
             std::thread::sleep(Duration::from_millis(500));
         }
-        println!("\n");
+        info!("\n");
         for _ in 0..n_req {
             let t0 = Instant::now();
             let resp = client.post("https://arb1.arbitrum.io/rpc", r#"{"id":704211,"jsonrpc":"2.0","method":"eth_getBalance","params":["0x407d73d8a49eeb85d32cf465507dd71d507100c1","latest"]}"#.as_bytes()).expect("post ok");
             total += Instant::now().checked_duration_since(t0).unwrap();
-            println!("{:?}", Instant::now() - t0);
+            info!("{:?}", Instant::now() - t0);
             std::thread::sleep(Duration::from_millis(500));
         }
     }

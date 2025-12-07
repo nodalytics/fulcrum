@@ -10,21 +10,21 @@ pub use log;
 #[macro_export]
 macro_rules! info {
     ($tx:expr,$($arg:tt)*) => {
-        let _ = $tx.send($crate::logger::Log::new(move || ::log::info!($($arg)*)));
+        let _ = $tx.send($crate::logger::tracing::new(move || ::tracing::info!($($arg)*)));
     }
 }
 
 #[macro_export]
 macro_rules! debug {
     ($tx:ident,$($arg:tt)*) => {
-        let _ = $tx.send($crate::logger::Log::new(move || ::log::debug!($($arg)*)));
+        let _ = $tx.send($crate::logger::tracing::new(move || ::tracing::debug!($($arg)*)));
     }
 }
 
 #[macro_export]
 macro_rules! error {
     ($tx:ident,$($arg:tt)*) => {
-        let _ = $tx.send($crate::logger::Log::new(move || ::log::error!($($arg)*)));
+        let _ = $tx.send($crate::logger::tracing::new(move || ::tracing::error!($($arg)*)));
     }
 }
 

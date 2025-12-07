@@ -2,7 +2,7 @@
 use std::fmt::{self};
 
 use ethers::types::U256;
-use log::{debug, trace};
+use tracing::{debug, trace};
 use once_cell::sync::Lazy;
 
 use crate::{

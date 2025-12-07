@@ -4,7 +4,7 @@
 use std::time::Instant;
 
 use http::Uri;
-use log::{debug, error};
+use tracing::{debug, error};
 use ws_tool::{
     codec::{AsyncFrameCodec, PMDConfig},
     connector::{async_tcp_connect, async_wrap_tls, get_host, TlsStream},
@@ -327,7 +327,7 @@ mod test {
         let buf = hex!("047862412af18da4c549549630887dba1af6c0f20000000000000000000000000000000000000000000000004563918244f40000");
         let bump = Bump::new();
         let mut tx_info = TxBuffer::new(&bump);
-        println!("{:?}", decode_tx_info_legacy(&buf));
+        info!("{:?}", decode_tx_info_legacy(&buf));
         assert!(false);
     }
 
@@ -335,10 +335,10 @@ mod test {
     fn failing_tx2() {
         let buf = include_bytes!("../res/test.base64");
         let l2msg = base64_simd::forgiving_decode_to_vec(buf).unwrap();
-        println!("{:?}", l2msg);
+        info!("{:?}", l2msg);
         let bump = Bump::new();
         let mut tx_info = TxBuffer::new(&bump);
-        println!("{:?}", decode_tx_info_legacy(&l2msg.as_slice()));
+        info!("{:?}", decode_tx_info_legacy(&l2msg.as_slice()));
     }
 }
 

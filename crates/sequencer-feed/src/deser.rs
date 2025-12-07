@@ -1,4 +1,4 @@
-use log::info;
+use tracing::info;
 
 /// Deserialize a sequencer feed JSON message into its base64 encoded 'L2' message
 ///
@@ -56,7 +56,7 @@ pub fn feed_json_from_input(buf: &mut [u8]) -> (u64, Option<&mut [u8]>) {
     */
     index += 39;
     let _kind_value = buf[index] - 0x30; // convert ascii digit to u8
-                                         // println!("kind:{kind_value}");
+                                         // info!("kind:{kind_value}");
                                          // skip this: `,"sender":"0xa4b000000000000000000073657175656e636572","blockNumber":`
                                          /*
                                          let block_number_start = index + 70;
@@ -68,7 +68,7 @@ pub fn feed_json_from_input(buf: &mut [u8]) -> (u64, Option<&mut [u8]>) {
                                          if let Ok(block_number) = str::parse::<u64>(unsafe {
                                              core::str::from_utf8_unchecked(&buf[block_number_start..index])
                                          }) {
-                                             println!("block: {:?}", block_number);
+                                             info!("block: {:?}", block_number);
                                          }
                                          */
 
