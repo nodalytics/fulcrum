@@ -10,20 +10,23 @@ path = "crates/main.rs"
 [dependencies]
 argh = "0.1.10"
 core_affinity = "0.8.0"
-env_logger = "0.10.0"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3.19", features = ["fmt", "env-filter"] }
+tracing-appender = "0.2.3"
 ethers-middleware = "2.0.3"
 ethers-providers = "2.0.3"
 ethers-signers = "2.0.3"
 faster-hex = "0.6.1"
 mimalloc = { version = "0.1.37",  default-features = false }
 tokio = { version = "1.27.0", features = [ "full" ] }
+tokio-tungstenite = "0.20" 
 
 fulcrum-engine = { path = "crates/engine" }
 fulcrum-sequencer-feed = { path = "crates/sequencer-feed" }
 fulcrum-ws-cli = { path = "crates/ws-cli" }
 
 [workspace]
-members = ["crates/engine", "crates/ws-cli", "crates/sequencer-feed"]
+members = ["crates/engine", "crates/ws-cli", "crates/sequencer-feed", "crates/ethabi-static-vendored", "crates/ethabi-static-derive-vendored"]
 
 [profile.release]
 codegen-units = 1

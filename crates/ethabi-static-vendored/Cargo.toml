@@ -1,0 +1,17 @@
+[package]
+name = "ethabi-static-vendored"
+version = "0.1.0"
+edition = "2021"
+authors = ["jordy25519"] # Keep original authors
+description = "decode Ethereum ABI types (vendored and patched)"
+
+[dependencies]
+ethereum-types = "*"
+# Point to our vendored derive crate
+ethabi-static-derive-vendored = { path = "../ethabi-static-derive-vendored" }
+
+[features]
+# The original crate has a "bump" feature that enables "bumpalo".
+# If "bump" is used by the engine, we should replicate it.
+# For now, keeping it minimal.
+# bump = ["bumpalo"]

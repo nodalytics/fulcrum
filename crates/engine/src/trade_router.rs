@@ -1,9 +1,10 @@
 //! Trade routing utilities
 
-use ethabi_static::{AddressZcp, Bytes32, BytesZcp, DecodeStatic};
+use ethabi_static_vendored::{AddressZcp, Bytes32, BytesZcp, DecodeStatic};
 use ethers::types::{Address, U256};
 use hex_literal::hex;
 use once_cell::sync::Lazy;
+use ethers::abi::ethabi;
 
 use crate::{
     constant::arbitrum::{

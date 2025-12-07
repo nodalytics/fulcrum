@@ -13,11 +13,12 @@ ethers-providers = "2.0.3"
 faster-hex = "0.6.1"
 futures-util = "0.3.28"
 isahc = "1.7.2"
-log = { version = "*", features = ["max_level_warn"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3.19", features = ["fmt", "env-filter"] }
 serde = "1.0.160"
 serde_json = { version = "1.0.96", features = ["raw_value"] }
 tokio = { version = "1.27.0", features = [ "full" ] }
-tokio-tungstenite = "0.18.0"
+tokio-tungstenite = "0.20"
 ws-tool = { git = "https://github.com/jordy25519/ws-tool", features = ["async", "async_tls_rustls", "deflate"], branch = "feat/resize-conf-deflate" }
 
 [dev-dependencies]

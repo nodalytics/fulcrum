@@ -1,5 +1,5 @@
 //! Uniswap V3 price source
-use ethabi_static::DecodeStatic;
+use ethabi_static_vendored::DecodeStatic;
 use ethers::{
     abi::{encode, encode_packed, Token as ABIToken},
     types::U512,
